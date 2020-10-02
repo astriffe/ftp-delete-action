@@ -1,0 +1,31 @@
+name: Continuous Testing
+
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  prepare-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Import commit files
+        uses: actions/checkout@v2
+      - name: create test files
+        run: |
+          mkdir test-files
+          while read line
+          do
+            touch test-files/$line
+          done < .github/workflows/test-files.txt
+      - name: Upload to FTP Server
+        uses: sebastianpopp/ftp-action@v2.0.0
+        with:
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          forceSsl: true
+          localDir: test-files
+          remoteDir: test-files
+
+
