@@ -1,0 +1,15 @@
+name: Continuous Testing
+
+
+on:
+  push:
+    branches: [develop]
+
+jobs:
+  prepare-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create files
+        run: while read line; do touch $line; done < test-files.txt
+
+
