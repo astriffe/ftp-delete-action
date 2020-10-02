@@ -1,6 +1,6 @@
-name: 'ftp-delete-action'
-author: 'Stephan Thierry <stephan@protek.dk>'
-description: 'Automate deleting files via FTP using this GitHub action.'
+name: 'ftp-pattern-delete-action'
+author: 'Alexander Striffeler <alexanders@bluewin.ch>'
+description: 'Automate awk pattern-based file deletion via FTP using this GitHub action.'
 inputs:
   host:
     description: 'FTP host'
@@ -11,10 +11,10 @@ inputs:
   password:
     description: 'FTP password'
     required: true
-  remoteFiles:
-    description: 'Remote files seperated by ; (wildcards accepted)'
+  pattern:
+    description: 'awk pattern to filter relevant files, see readme for examples.'
     required: true
-    default: ''
+    default: '//'
   workingDir:
     description: 'Working directory'
     required: false
