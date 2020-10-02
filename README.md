@@ -45,15 +45,15 @@ jobs:
     needs: [deploy]
     steps:
       - name: Get hashes for main-*.js
-        run: echo '::set-env name=_MAIN_HASH::$(ls dist/ | grep main- | head -n 1 | awk -F'[.]' '{print $2}')'
+        run: echo '::set-env name=_MAIN_HASH::$(ls dist/ | grep main | head -n 1 | awk -F'[.]' '{print $2}')'
       - name: Get hashes for runtime-*.js
-        run: echo '::set-env name=_RUNTIME_HASH::$(ls dist/ | grep runtime- | head -n 1 | awk -F'[.]' '{print $2}')'
+        run: echo '::set-env name=_RUNTIME_HASH::$(ls dist/ | grep runtime | head -n 1 | awk -F'[.]' '{print $2}')'
       - name: Get hashes for polyfills-*.js
-        run: echo '::set-env name=_POLYFILLS_HASH::$(ls dist/ | grep polyfills-es5 | head -n 1 | awk -F'[.]' '{print $2}')'
+        run: echo '::set-env name=_POLYFILLS_HASH::$(ls dist/ | grep polyfills | head -n 1 | awk -F'[.]' '{print $2}')'
       - name: Get hashes for styles.*.js
-        run: echo '::set-env name=_STYLES_HASH::$(ls dist/ | grep styles. | head -n 1 | awk -F'[.]' '{print $2}')'
+        run: echo '::set-env name=_STYLES_HASH::$(ls dist/ | grep styles | head -n 1 | awk -F'[.]' '{print $2}')'
 
-      - name: delete main-*.js, runtime-*.js, styles.*.css
+      - name: delete main-*.js, runtime-*.js, styles.*.css, polyfills-*.js
         uses: astriffe/ftp-filter-delete-action@releases/v1
         with:
           host: ${{ secrets.FTP_SERVER }}
@@ -61,7 +61,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           workingDir: .
           ignoreSsl: 1
-          pattern: "(/main-/ && !/${_MAIN_HASH}/) || (/runtime-/ && !/${_RUNTIME_HASH}/) || (/styles-/ && !/${_STYLES_HASH}/) || (/polyfills-/ && !/${POLYFILLS_HASH}/)"
+          pattern: "(/main-/ && !/${_MAIN_HASH}/) || (/runtime-/ && !/${_RUNTIME_HASH}/) || (/styles/ && !/${_STYLES_HASH}/) || (/polyfills-/ && !/${_POLYFILLS_HASH}/)"
 ```
 
 ## Input parameters
